@@ -1,51 +1,40 @@
-use std::path::PathBuf;
-use std::fs::File;
-use std::io::{BufRead, BufReader};
 use std::process::exit;
 
-
-mod shared;
+mod runner;
+mod solver;
 mod solutions;
+mod verify;
 
-use shared::SolutionResult;
+use runner::get_solution;
 
-fn get_solution(day_number : u8) -> SolutionResult
+fn run_day(year : &str, day_number : u8)
 {
-    let input_filepath = PathBuf::from(format!("./input/day{:02}.txt", day_number));
-
-    let mut lines: Vec<String> = Vec::new();
-
-    if let Ok(file) = File::open(&input_filepath)
-    {
-        lines = BufReader::new(file).lines().filter_map(Result::ok).collect();
-    }
-    let lines_iter = lines.iter().map(|s| s.as_str());
-    solutions::solve(day_number, Box::new(lines_iter))
-}
-
-fn run_day(day_number : u8)
-{
-    match get_solution(day_number)
+    match get_solution(year, day_number)
     {
         Ok(solution)  => println!("Day {:02}: {}", day_number, solution),
         Err(e) => eprintln!("Day {:02} : {}", day_number, e)
     }
 }
 
-
 fn main() 
 {
     let first_arg: Option<String> = std::env::args().nth(1);
+    let year_arg: Option<String> = std::env::args().nth(2);
+    
+    let year: &str = year_arg.as_deref().unwrap_or("2025");
 
     if let Some(arg) = first_arg
     {
         if regex::Regex::new(r"^day\d\d?$").unwrap().is_match(&arg) {
             let selected_day = arg[3..].parse().unwrap();
-            run_day(selected_day);
+            match selected_day {
+                1..=25 => run_day(year, selected_day),
+                _ => eprintln!("Invalid day, must be 1-25"),
+            }
         }
         else
         {
-            eprintln!("Pass a single argument 'dayXX', or no arguments to run all!");
+            eprintln!("Format day argument as 'dayXX'");
             exit(1);
         }
     }
@@ -53,52 +42,7 @@ fn main()
     {
         for i in 1..26
         {
-            run_day(i);
+            run_day(year, i);
         }
     }
 }
-
-#[cfg(test)]
-mod verify
-{
-    use super::*;
-    use matches::assert_matches;
-    use shared::Solution;
-
-    #[test]
-    fn day01()
-    {
-        assert_matches!(get_solution(1), Ok(Solution { part1: 1830467, part2: 26674158 }));
-    }
-
-    #[test]
-    fn day02()
-    {
-        assert_matches!(get_solution(2), Ok(Solution { part1: 390, part2: 439 }));
-    }
-
-    #[test]
-    fn day03()
-    {
-        assert_matches!(get_solution(3), Ok(Solution { part1: 187825547, part2: 85508223 }));
-    }
-    
-    #[test]
-    fn day04()
-    {
-        assert_matches!(get_solution(4), Ok(Solution { part1: 2578, part2: 1972 }));
-    }
-
-    #[test]
-    fn day05()
-    {
-        assert_matches!(get_solution(5), Ok(Solution { part1: 4569, part2: 6456 }));
-    }
-
-    #[test]
-    fn day06()
-    {
-        assert_matches!(get_solution(6), Ok(Solution { part1: 5312, part2: 0 }));
-    }
-}
-

@@ -1,7 +1,7 @@
 use std::{fmt, hash::Hash};
 use std::collections::HashSet;
 
-use crate::shared::{Solver, Solution, SolutionResult};
+use crate::solver::{Solver, Solution, SolutionResult};
 
 #[derive(Copy, Clone, PartialEq, Eq, Hash, Debug)]
 enum Direction {

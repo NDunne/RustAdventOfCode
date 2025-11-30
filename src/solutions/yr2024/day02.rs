@@ -1,4 +1,4 @@
-use crate::shared::{Solver, Solution, SolutionResult};
+use crate::solver::{Solver, Solution, SolutionResult};
 
 /**
  * Sequences that are safe if one element is removed are "Dampened", which stores the index

@@ -7,7 +7,7 @@ use itertools::Itertools;
 use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
 
-use crate::shared::{Solver, Solution, SolutionResult};
+use crate::solver::{Solver, Solution, SolutionResult};
 
 #[derive(Debug, PartialEq, Eq, Copy, Clone, Hash)]
 struct Point

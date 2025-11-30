@@ -1,6 +1,6 @@
 use std::{cmp::Ordering, collections::{HashMap, HashSet}};
 
-use crate::shared::{Solver, Solution, SolutionResult};
+use crate::solver::{Solver, Solution, SolutionResult};
 
 #[derive(Default)]
 struct Rule

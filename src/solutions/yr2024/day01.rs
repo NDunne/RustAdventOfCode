@@ -1,7 +1,7 @@
 use std::collections::hash_map::Entry::{Occupied, Vacant};
 use std::collections::HashMap;
 
-use crate::shared::{Solver, Solution, SolutionResult};
+use crate::solver::{Solver, Solution, SolutionResult};
 
 pub struct SolverDay01 {}
 

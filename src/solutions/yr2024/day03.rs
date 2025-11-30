@@ -1,5 +1,5 @@
 
-use crate::shared::{Solver, Solution, SolutionResult};
+use crate::solver::{Solver, Solution, SolutionResult};
 
 use regex::Regex;
 
